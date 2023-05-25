@@ -8,9 +8,11 @@ export default function Home() {
       'https://eunitbackend-production.up.railway.app/ad/json/all'
     );
     const data = await res.json();
-    const ws = utils.json_to_sheet(data);
     const wb = utils.book_new();
-    utils.book_append_sheet(wb, ws, 'Sheet1');
+    data.map((item) => {
+      const ws = utils.json_to_sheet(item.ads);
+      utils.book_append_sheet(wb, ws, item.id);
+    });
     writeFileXLSX(wb, 'test.xlsx');
   };
   return (
